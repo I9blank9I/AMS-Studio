@@ -1,0 +1,196 @@
+{
+  "Companies": [
+    {
+      "Id": "2e1f33a8-e6c8-4705-9c21-f068916b93eb",
+      "Name": "MIA",
+      "Location": null
+    }
+  ],
+  "Trainers": [
+    {
+      "Id": "9111ff0c-ad6c-4ff5-9ca1-db62d3255f10",
+      "Name": "Roger",
+      "PhoneNumber": null,
+      "Email": null
+    }
+  ],
+  "Apprentices": [
+    {
+      "Id": "3e4ca178-1147-4177-818c-2a65692b56e0",
+      "FirstName": "",
+      "LastName": "",
+      "FullName": "",
+      "CompanyId": null,
+      "TrainerId": null,
+      "CurrentDepartment": "General",
+      "ApprenticeshipYear": 1,
+      "SickDays": 0,
+      "VacationDaysTaken": 0,
+      "WorkJournals": [
+        {
+          "Id": "d0f650bb-254a-46ce-a141-5353a91b33b7",
+          "Date": "2026-03-26T09:15:16.9171069+01:00",
+          "TaskDescription": "Fish",
+          "HoursWorked": 8.5
+        }
+      ],
+      "SchoolSubjects": [
+        {
+          "Id": "d34c050b-587b-49d4-a38c-eb5afed2ebf2",
+          "SubjectName": "English",
+          "Grades": [
+            {
+              "Id": "f64d8a64-05fa-49d1-b8a7-d8e505596669",
+              "Score": 100,
+              "Weight": 1,
+              "Date": "2026-03-26T09:15:45.7126838+01:00"
+            },
+            {
+              "Id": "1943ea69-6809-42b3-8c9f-1caadbda2e62",
+              "Score": 44,
+              "Weight": 1,
+              "Date": "2026-03-26T09:15:51.8732462+01:00"
+            }
+          ],
+          "Average": 72
+        },
+        {
+          "Id": "136e1127-3493-4cac-a366-cb7e52ac97e5",
+          "SubjectName": "Math",
+          "Grades": [],
+          "Average": 0
+        }
+      ],
+      "IsPassing": true,
+      "Status": "Passing"
+    },
+    {
+      "Id": "ae62b80a-b932-4367-abb1-34cd38e9a36c",
+      "FirstName": "",
+      "LastName": "",
+      "FullName": "",
+      "CompanyId": null,
+      "TrainerId": null,
+      "CurrentDepartment": "General",
+      "ApprenticeshipYear": 1,
+      "SickDays": 0,
+      "VacationDaysTaken": 0,
+      "WorkJournals": [
+        {
+          "Id": "a3ae4ebd-4489-4e33-b0de-e366b3cad029",
+          "Date": "2026-03-26T08:26:55.5661329+01:00",
+          "TaskDescription": "Input session",
+          "HoursWorked": 8.5
+        },
+        {
+          "Id": "f16daf46-344f-4826-b3ad-7fe5ca9def95",
+          "Date": "2026-03-26T08:51:07.7314091+01:00",
+          "TaskDescription": "Worked on diffrent things\r\n",
+          "HoursWorked": 8
+        },
+        {
+          "Id": "c59ddc09-5147-484d-bbf8-6a85d23c8240",
+          "Date": "2026-03-26T08:51:22.2220407+01:00",
+          "TaskDescription": "dasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDASdasDDAS",
+          "HoursWorked": 8
+        }
+      ],
+      "SchoolSubjects": [
+        {
+          "Id": "973ec0fd-3c98-460f-843e-eb25e6204bbd",
+          "SubjectName": "English",
+          "Grades": [
+            {
+              "Id": "7b7c212a-9b52-4b07-969b-109ff00d78ed",
+              "Score": 100,
+              "Weight": 1,
+              "Date": "2026-03-26T08:27:10.9897249+01:00"
+            }
+          ],
+          "Average": 100
+        }
+      ],
+      "IsPassing": true,
+      "Status": "Passing"
+    },
+    {
+      "Id": "81d92520-6850-41e5-8fd0-1a7b6a7d58e6",
+      "FirstName": "Kevin",
+      "LastName": "Ammann",
+      "FullName": "Kevin Ammann",
+      "CompanyId": null,
+      "TrainerId": null,
+      "CurrentDepartment": "IT Appli",
+      "ApprenticeshipYear": 1,
+      "SickDays": 20,
+      "VacationDaysTaken": 20,
+      "WorkJournals": [],
+      "SchoolSubjects": [
+        {
+          "Id": "4c1b1f26-1f4d-4d75-b3f8-b3d6f00b60ae",
+          "SubjectName": "English",
+          "Grades": [
+            {
+              "Id": "1e3e2992-fbd5-4731-9842-a954870f155f",
+              "Score": 5,
+              "Weight": 1,
+              "Date": "2026-03-26T10:58:22.8520045+01:00"
+            },
+            {
+              "Id": "83320743-f479-4e5b-8d4c-743e2189fbfe",
+              "Score": 4,
+              "Weight": 1,
+              "Date": "2026-03-26T10:58:25.5070575+01:00"
+            },
+            {
+              "Id": "95307f8e-15f4-49a7-9d9d-5555e56363ee",
+              "Score": 6,
+              "Weight": 1,
+              "Date": "2026-03-26T10:58:27.1248418+01:00"
+            },
+            {
+              "Id": "0928e580-3ccb-425f-893b-aa373d6a18f0",
+              "Score": 1,
+              "Weight": 1,
+              "Date": "2026-03-26T10:58:28.4635593+01:00"
+            },
+            {
+              "Id": "37f18dc5-f272-494f-9ebc-719632961c67",
+              "Score": 6,
+              "Weight": 1,
+              "Date": "2026-03-26T10:58:44.6197059+01:00"
+            },
+            {
+              "Id": "2036c469-1792-4dde-a45e-7b726e40267d",
+              "Score": 6,
+              "Weight": 1,
+              "Date": "2026-03-26T10:58:47.0919859+01:00"
+            },
+            {
+              "Id": "016c105c-9711-4ccd-8efb-898b87d2c0f5",
+              "Score": 6,
+              "Weight": 1,
+              "Date": "2026-03-26T10:58:49.1486182+01:00"
+            }
+          ],
+          "Average": 4.857142857142857
+        },
+        {
+          "Id": "579262b1-8089-4dfd-95f9-d49239447062",
+          "SubjectName": "Math",
+          "Grades": [
+            {
+              "Id": "f41c6f14-ec42-4661-9033-e98b291d22c5",
+              "Score": 6,
+              "Weight": 1,
+              "Date": "2026-03-26T10:58:42.5074335+01:00"
+            }
+          ],
+          "Average": 6
+        }
+      ],
+      "IsPassing": true,
+      "Status": "Passing"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "Apprentices": [
+    {
+      "Id": "468e1d32-9af1-4aa1-a43b-f7fe6a26fb2d",
+      "FirstName": "Kevin",
+      "LastName": "Ammann",
+      "Department": "IT",
+      "PinCode": "1234",
+      "CompanyName": "Mia",
+      "TrainerName": "Roger Sch\u00E4r",
+      "SickDays": 29,
+      "CurrentYear": 1,
+      "DailyPlan": "asdwaswad\r\n\r\nngktzbg\r\nd\r\nasdw\r\nas\r\nds\r\nad\r\n\r\na",
+      "CareerGoal": "Looking to master my craft.",
+      "CasinoCredits": 1110,
+      "Subjects": [
+        {
+          "Id": "a1b74550-6ee1-4896-a95b-2d875b158c44",
+          "Name": "Englisch",
+          "Tests": [
+            {
+              "TestName": "Grammar",
+              "Grade": 5.5
+            }
+          ]
+        },
+        {
+          "Id": "5ba00592-852a-4cf5-b9f1-474840c5de5e",
+          "Name": "Englisch",
+          "Tests": [
+            {
+              "TestName": "Fisch",
+              "Grade": 5
+            },
+            {
+              "TestName": "Grammar",
+              "Grade": 6
+            },
+            {
+              "TestName": "Fischer",
+              "Grade": 5
+            }
+          ]
+        },
+        {
+          "Id": "628f44df-5318-4ddf-a591-f834b5c7d94e",
+          "Name": "Math",
+          "Tests": [
+            {
+              "TestName": "Gleichungen",
+              "Grade": 6
+            }
+          ]
+        }
+      ],
+      "WorkJournals": [
+        {
+          "Id": "5fd9964d-5fd4-49a8-9e70-78575412d93b",
+          "Date": "2026-03-26T11:25:06.5987184+01:00",
+          "TaskDescription": "Inputsession",
+          "HoursWorked": 9
+        },
+        {
+          "Id": "1da520c9-10ce-4c98-81f3-d7cdc5514a7a",
+          "Date": "2026-03-26T11:42:27.7219817+01:00",
+          "TaskDescription": "Fishing",
+          "HoursWorked": 8
+        },
+        {
+          "Id": "fd9a969d-5fb2-4ac6-92b0-6d899a0c0ec3",
+          "Date": "2026-03-26T11:42:38.2443736+01:00",
+          "TaskDescription": "wasserrrrr",
+          "HoursWorked": 8
+        },
+        {
+          "Id": "e8c95397-eb0c-43e2-8cb6-bd861847162e",
+          "Date": "2026-03-26T12:41:46.5093551+01:00",
+          "TaskDescription": "Today i had an inputsession with alot of task and i completed them all and after that i was also still learning fo the school project and the tests we have next week",
+          "HoursWorked": 8.5
+        },
+        {
+          "Id": "6ef7faf6-6f98-4189-b318-efc0ddbda536",
+          "Date": "2026-03-26T14:04:52.3431252+01:00",
+          "TaskDescription": "dasd",
+          "HoursWorked": 2
+        }
+      ]
+    },
+    {
+      "Id": "8bcf6a01-8af3-4aca-800c-977d14ee4be8",
+      "FirstName": "Fisch",
+      "LastName": "Kopf",
+      "Department": "IT",
+      "PinCode": "1234",
+      "CompanyName": "Mia",
+      "TrainerName": "Roger Sch\u00E4r",
+      "SickDays": 0,
+      "CurrentYear": 2,
+      "DailyPlan": "was isch das wo bin ich hier, wieso bin ich nicht im Wasser????",
+      "CareerGoal": "Looking to master my craft.",
+      "CasinoCredits": 1000,
+      "Subjects": [],
+      "WorkJournals": []
+    },
+    {
+      "Id": "1814b075-154c-4515-b41e-21f8fa637087",
+      "FirstName": "lehi",
+      "LastName": "ai",
+      "Department": "IT",
+      "PinCode": "1234",
+      "CompanyName": "Not Assigned",
+      "TrainerName": "Not Assigned",
+      "SickDays": 0,
+      "CurrentYear": 1,
+      "DailyPlan": "",
+      "CareerGoal": "Looking to master my craft.",
+      "CasinoCredits": 1000,
+      "Subjects": [],
+      "WorkJournals": []
+    }
+  ],
+  "Companies": [
+    {
+      "Id": "72f24727-8c4f-4217-be08-6a5b5de5d0df",
+      "Name": "Mia",
+      "Location": "bern"
+    }
+  ],
+  "Trainers": [
+    {
+      "Id": "3752e856-11be-455b-bf55-642f4ae14aab",
+      "FirstName": "Roger",
+      "LastName": "Sch\u00E4r",
+      "Email": "ADMIN",
+      "PinCode": "1234",
+      "CasinoCredits": 7605555
+    }
+  ]
+}

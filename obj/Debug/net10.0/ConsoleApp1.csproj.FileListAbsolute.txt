@@ -1,0 +1,14 @@
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.GeneratedMSBuildEditorConfig.editorconfig
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.AssemblyInfoInputs.cache
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.AssemblyInfo.cs
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.csproj.CoreCompileInputs.cache
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\bin\Debug\net10.0\ConsoleApp1.exe
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\bin\Debug\net10.0\ConsoleApp1.deps.json
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\bin\Debug\net10.0\ConsoleApp1.runtimeconfig.json
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\bin\Debug\net10.0\ConsoleApp1.dll
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\bin\Debug\net10.0\ConsoleApp1.pdb
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.dll
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\refint\ConsoleApp1.dll
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.pdb
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\ConsoleApp1.genruntimeconfig.cache
+c:\Codes\MIA\C#\MIACopilotClaude\ConsoleApp1\obj\Debug\net10.0\ref\ConsoleApp1.dll
