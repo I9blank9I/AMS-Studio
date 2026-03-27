@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\ConsoleApp1.csproj": {}
+    "C:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\ConsoleApp1.csproj": {}
   },
   "projects": {
-    "c:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\ConsoleApp1.csproj": {
+    "C:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\ConsoleApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\ConsoleApp1.csproj",
+        "projectUniqueName": "C:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\ConsoleApp1.csproj",
         "projectName": "ConsoleApp1",
-        "projectPath": "c:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\ConsoleApp1.csproj",
+        "projectPath": "C:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\ConsoleApp1.csproj",
         "packagesPath": "C:\\Users\\KevinAmmann\\.nuget\\packages\\",
-        "outputPath": "c:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\obj\\",
+        "outputPath": "C:\\Codes\\MIA\\C#\\MIACopilotKev\\ConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\KevinAmmann\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -13,6 +13,10 @@ public enum UserRole { Trainer, Apprentice }
 
 public static class AppUI
 {
+    /// <summary>
+    /// Zeigt ein modales Dialogfeld an, um eine Texteingabe vom Benutzer zu erhalten.
+    /// </summary>
+    /// <returns>Gibt den vom Benutzer eingegebenen Text zurück oder eine leere Zeichenfolge, wenn der Dialog abgebrochen wird.</returns>
     public static string PromptInput(string prompt, string title, string defaultValue = "", bool isPassword = false)
     {
         using Form form = new Form() { Width = 400, Height = 200, FormBorderStyle = FormBorderStyle.FixedSingle, MaximizeBox = false, Text = title, StartPosition = FormStartPosition.CenterParent, BackColor = Color.FromArgb(32, 32, 32), ForeColor = Color.White };
@@ -25,6 +29,10 @@ public static class AppUI
         return form.ShowDialog() == DialogResult.OK ? textBox.Text : string.Empty;
     }
 
+    /// <summary>
+    /// Erstellt und konfiguriert ein DataGridView mit einem modernen, dunklen Design.
+    /// </summary>
+    /// <returns>Ein neues, gestyltes DataGridView-Objekt.</returns>
     public static DataGridView CreateModernGrid()
     {
         var grid = new DataGridView() {
@@ -40,6 +48,10 @@ public static class AppUI
         return grid;
     }
 
+    /// <summary>
+    /// Erstellt einen Button mit einem flachen, modernen Design.
+    /// </summary>
+    /// <returns>Ein neues, gestyltes Button-Objekt.</returns>
     public static Button CreateFlatButton(string text, Color color)
     {
         var btn = new Button() { Text = text, Width = 160, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = color, ForeColor = Color.White, Cursor = Cursors.Hand, Margin = new Padding(5) };
@@ -49,6 +61,9 @@ public static class AppUI
 
 public class JournalEntryDialog : Form
 {
+    /// <summary>
+    /// Initialisiert ein Dialogfeld zum Hinzufügen oder Bearbeiten eines Arbeitstagebucheintrags.
+    /// </summary>
     public string TaskDesc { get; private set; } = ""; public double Hours { get; private set; } = 0;
     public JournalEntryDialog(WorkJournal? existing = null) {
         Text = existing == null ? "Add Work Journal" : "Edit Work Journal"; Size = new Size(500, 420); StartPosition = FormStartPosition.CenterParent; BackColor = Color.FromArgb(32, 32, 32); ForeColor = Color.White; FormBorderStyle = FormBorderStyle.FixedSingle; MaximizeBox = false;
@@ -66,6 +81,9 @@ public class JournalEntryDialog : Form
 public class LoginForm : Form
 {
     private ComboBox _cbRole, _cbUser; private TextBox _txtPin;
+    /// <summary>
+    /// Initialisiert das Anmeldefenster mit allen UI-Komponenten.
+    /// </summary>
     public LoginForm() {
         Text = "AMS Login"; Size = new Size(420, 520); StartPosition = FormStartPosition.CenterScreen; BackColor = Color.FromArgb(32, 32, 32); ForeColor = Color.White; FormBorderStyle = FormBorderStyle.FixedSingle; MaximizeBox = false;
         Label lblBrand = new Label() { Text = "AMS Studio", Font = new Font("Segoe UI", 24, FontStyle.Bold), ForeColor = Color.FromArgb(0, 122, 204), Dock = DockStyle.Top, Height = 90, TextAlign = ContentAlignment.MiddleCenter, Padding = new Padding(0, 20, 0, 0) };
@@ -81,12 +99,17 @@ public class LoginForm : Form
         this.AcceptButton = btnLogin; pnlCenter.Controls.Add(lblRole); pnlCenter.Controls.Add(_cbRole); pnlCenter.Controls.Add(lblUser); pnlCenter.Controls.Add(_cbUser); pnlCenter.Controls.Add(lblPin); pnlCenter.Controls.Add(_txtPin); pnlCenter.Controls.Add(btnLogin); Controls.Add(pnlCenter); Controls.Add(lblBrand); _cbRole.SelectedIndex = 0;
     }
     private void RoleChanged(object? sender, EventArgs e) {
+        // Aktualisiert die Benutzerliste basierend auf der ausgewählten Rolle.
         _cbUser.Items.Clear();
         if (_cbRole.SelectedIndex == 0) { if (Database.Data.Trainers.Count == 0) _cbUser.Items.Add("Default Admin"); else _cbUser.Items.AddRange(Database.Data.Trainers.Select(t => t.FullName).ToArray()); } 
         else { if (Database.Data.Apprentices.Count == 0) _cbUser.Items.Add("No Apprentices Found"); else _cbUser.Items.AddRange(Database.Data.Apprentices.Select(a => $"{a.FirstName} {a.LastName}").ToArray()); }
         if (_cbUser.Items.Count > 0) _cbUser.SelectedIndex = 0;
     }
+    /// <summary>
+    /// Versucht, den Benutzer basierend auf der ausgewählten Rolle, dem Namen und dem PIN-Code anzumelden.
+    /// </summary>
     private void TryLogin(object? sender, EventArgs e) {
+        // Überprüft die Anmeldeinformationen und öffnet das Hauptformular bei Erfolg.
         UserRole role = _cbRole.SelectedIndex == 0 ? UserRole.Trainer : UserRole.Apprentice; Apprentice? loggedInApprentice = null; VocationalTrainer? loggedInTrainer = null;
         string selectedName = _cbUser.SelectedItem?.ToString() ?? ""; string enteredPin = _txtPin.Text;
         if (role == UserRole.Trainer && selectedName != "Default Admin") { loggedInTrainer = Database.Data.Trainers.FirstOrDefault(t => t.FullName == selectedName); if (loggedInTrainer == null || loggedInTrainer.PinCode != enteredPin) { MessageBox.Show("Invalid PIN."); return; } } 
@@ -108,6 +131,9 @@ public class BlackjackPanel : Panel
     private List<string> _playerHand = new List<string>(), _dealerHand = new List<string>(), _deck = new List<string>(), _splitHand = null;
     private Random _rng = new Random(); private Action<int> _saveCredits;
 
+    /// <summary>
+    /// Initialisiert das Blackjack-Spielpanel mit allen UI-Elementen und der Spiellogik.
+    /// </summary>
     public BlackjackPanel(int initialCredits, Action<int> saveCreditsCallback)
     {
         _currentCredits = initialCredits; _saveCredits = saveCreditsCallback; Dock = DockStyle.Fill;
@@ -131,10 +157,19 @@ public class BlackjackPanel : Panel
         Controls.AddRange(new Control[] { lblTitle, lblCredits, lblBet, txtBet, btnDeal, btnHit, btnStand, btnDouble, btnSplit, lblDealerTitle, lblDealerCards, lblPlayerTitle, lblPlayerCards, lblMessage });
     }
 
+    /// <summary>
+    /// Erstellt ein neues Kartendeck und mischt es.
+    /// </summary>
     private void GenerateDeck() { _deck.Clear(); string[] suits = { "♠", "♥", "♦", "♣" }; string[] ranks = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" }; foreach (var s in suits) foreach (var r in ranks) _deck.Add(r + s); _deck = _deck.OrderBy(x => _rng.Next()).ToList(); }
     
+    /// <summary>
+    /// Zieht die oberste Karte vom Deck.
+    /// </summary>
     private string DrawCard() { var card = _deck[0]; _deck.RemoveAt(0); return card; }
     
+    /// <summary>
+    /// Berechnet den Punktwert einer Hand.
+    /// </summary>
     private int CalculateScore(List<string> hand) { 
         int score = 0; int aces = 0; 
         foreach (var card in hand) { 
@@ -147,6 +182,9 @@ public class BlackjackPanel : Panel
         return score; 
     }
 
+    /// <summary>
+    /// Prüft, ob die Hand des Spielers geteilt werden kann.
+    /// </summary>
     private bool CanSplit() {
         if (_playerHand.Count != 2) return false;
         string r1 = _playerHand[0].Substring(0, _playerHand[0].Length - 1); string r2 = _playerHand[1].Substring(0, _playerHand[1].Length - 1);
@@ -154,6 +192,9 @@ public class BlackjackPanel : Panel
         return r1 == r2;
     }
 
+    /// <summary>
+    /// Aktualisiert die Benutzeroberfläche, um die aktuellen Hände und Punktzahlen anzuzeigen.
+    /// </summary>
     private void UpdateUI() {
         if (_dealerHand.Count > 0) lblDealerCards.Text = _dealerHand[0] + "  [Hidden]";
         string pText = string.Join("  ", _playerHand) + $"  (Score: {CalculateScore(_playerHand)})";
@@ -163,6 +204,9 @@ public class BlackjackPanel : Panel
         } else { lblPlayerCards.Text = pText; }
     }
 
+    /// <summary>
+    /// Startet eine neue Spielrunde, wenn auf "Deal" geklickt wird.
+    /// </summary>
     private void BtnDeal_Click(object sender, EventArgs e) {
         if (!int.TryParse(txtBet.Text, out _currentBet) || _currentBet <= 0) { MessageBox.Show("Invalid bet."); return; }
         if (_currentBet > _currentCredits) { MessageBox.Show("Not enough credits!"); return; }
@@ -179,6 +223,9 @@ public class BlackjackPanel : Panel
         if (CalculateScore(_playerHand) >= 21) BtnStand_Click(null, null); 
     }
 
+    /// <summary>
+    /// Zieht eine weitere Karte für die aktive Hand des Spielers.
+    /// </summary>
     private void BtnHit_Click(object sender, EventArgs e) { 
         btnDouble.Enabled = false; btnSplit.Enabled = false;
         var activeHand = _playingSplit ? _splitHand : _playerHand;
@@ -186,6 +233,9 @@ public class BlackjackPanel : Panel
         if (CalculateScore(activeHand) >= 21) BtnStand_Click(null, null); 
     }
 
+    /// <summary>
+    /// Verdoppelt den Einsatz, zieht eine Karte und beendet den Zug.
+    /// </summary>
     private void BtnDouble_Click(object sender, EventArgs e) {
         _isDoubled = true;
         _currentCredits -= _currentBet; _currentBet *= 2; _saveCredits(_currentCredits); UpdateCreditsLabel();
@@ -194,6 +244,9 @@ public class BlackjackPanel : Panel
         activeHand.Add(DrawCard()); UpdateUI(); BtnStand_Click(null, null);
     }
 
+    /// <summary>
+    /// Teilt die Hand des Spielers in zwei separate Hände auf.
+    /// </summary>
     private void BtnSplit_Click(object sender, EventArgs e) {
         _currentCredits -= _currentBet; _splitBet = _currentBet; _saveCredits(_currentCredits); UpdateCreditsLabel();
         _splitHand = new List<string> { _playerHand[1] }; _playerHand.RemoveAt(1);
@@ -202,11 +255,17 @@ public class BlackjackPanel : Panel
         if (CalculateScore(_playerHand) >= 21) BtnStand_Click(null, null);
     }
 
+    /// <summary>
+    /// Beendet den Zug für die aktuelle Hand oder das gesamte Spiel.
+    /// </summary>
     private void BtnStand_Click(object sender, EventArgs e) {
         if (_splitHand != null && !_playingSplit) { _playingSplit = true; UpdateUI(); if (CalculateScore(_splitHand) >= 21) BtnStand_Click(null, null); return; }
         EndGame();
     }
 
+    /// <summary>
+    /// Beendet das Spiel, deckt die Karten des Dealers auf und ermittelt den Gewinner.
+    /// </summary>
     private void EndGame() {
         btnHit.Enabled = false; btnStand.Enabled = false; btnDouble.Enabled = false; btnSplit.Enabled = false;
         while (CalculateScore(_dealerHand) < 17) _dealerHand.Add(DrawCard());
@@ -227,6 +286,9 @@ public class BlackjackPanel : Panel
         else { lblMessage.Text = "Dealer Wins."; lblMessage.ForeColor = Color.IndianRed; }
     }
 
+    /// <summary>
+    /// Bestimmt den Ausgang für eine einzelne Hand und gibt den Gewinn zurück.
+    /// </summary>
     private int ResolveHand(int pScore, int dScore, int bet, bool isDoubled) {
         if (pScore > 21) return 0;
         if (pScore == 21) return isDoubled ? bet * 8 : bet * 4; // 8x Multiplier if Doubled and hit 21!
@@ -235,7 +297,13 @@ public class BlackjackPanel : Panel
         return 0;
     }
 
+    /// <summary>
+    /// Aktualisiert die Anzeige der Credits.
+    /// </summary>
     private void UpdateCreditsLabel() => lblCredits.Text = $"Credits: {_currentCredits}";
+    /// <summary>
+    /// Synchronisiert die Credits des Spiels mit dem externen Wert.
+    /// </summary>
     public void SyncCredits(int newCredits) { _currentCredits = newCredits; UpdateCreditsLabel(); }
 }
 
@@ -247,6 +315,9 @@ public class MainForm : Form
     private Stack<Panel> _navHistory = new Stack<Panel>(); private Panel _currentView = null!;
     private UserRole _role; private Apprentice? _loggedInApprentice; private VocationalTrainer? _loggedInTrainer;
 
+    /// <summary>
+    /// Initialisiert das Hauptformular der Anwendung, einschliesslich Seitenleiste und Hauptinhaltsbereich.
+    /// </summary>
     public MainForm(UserRole role, Apprentice? loggedInApprentice, VocationalTrainer? loggedInTrainer = null)
     {
         _role = role; _loggedInApprentice = loggedInApprentice; _loggedInTrainer = loggedInTrainer;
@@ -286,6 +357,9 @@ public class MainForm : Form
         }
     }
 
+    /// <summary>
+    /// Wechselt die im Hauptbereich angezeigte Ansicht und setzt den Navigationsverlauf zurück.
+    /// </summary>
     private void SwitchSidebarView(Panel baseView) { 
         _navHistory.Clear(); foreach (Control c in _mainPanel.Controls) c.Visible = false; _currentView = baseView; 
         if (!_mainPanel.Controls.Contains(baseView)) _mainPanel.Controls.Add(baseView); 
@@ -293,16 +367,40 @@ public class MainForm : Form
         baseView.Visible = true; baseView.BringToFront(); RefreshGrids(); UpdateHomeStats(); if (baseView == _pnlStatistics) UpdateStatisticsPanel();
     }
     
+    /// <summary>
+    /// Navigiert zu einer neuen Ansicht und speichert die aktuelle Ansicht im Verlauf.
+    /// </summary>
     private void NavigateForward(Panel newView) { _navHistory.Push(_currentView); _currentView.Visible = false; newView.Dock = DockStyle.Fill; _mainPanel.Controls.Add(newView); _currentView = newView; _currentView.Visible = true; _currentView.BringToFront(); }
+    /// <summary>
+    /// Navigiert zur vorherigen Ansicht im Verlauf zurück.
+    /// </summary>
     private void NavigateBack() { if (_navHistory.Count > 0) { _mainPanel.Controls.Remove(_currentView); _currentView.Dispose(); _currentView = _navHistory.Pop(); if (!_mainPanel.Controls.Contains(_currentView)) _mainPanel.Controls.Add(_currentView); _currentView.Visible = true; _currentView.BringToFront(); RefreshGrids(); UpdateHomeStats(); } }
+    /// <summary>
+    /// Ersetzt die aktuelle Ansicht durch eine neue, ohne den Navigationsverlauf zu ändern.
+    /// </summary>
     private void ReplaceCurrentView(Panel newView) { _mainPanel.Controls.Remove(_currentView); _currentView.Dispose(); _currentView = newView; newView.Dock = DockStyle.Fill; _mainPanel.Controls.Add(newView); newView.BringToFront(); RefreshGrids(); }
 
+    /// <summary>
+    /// Filtert die Lernendenliste basierend auf dem Suchtext.
+    /// </summary>
     private void SearchApprentices(object? sender, EventArgs e) { if(sender is TextBox t) _apprenticeGrid.DataSource = Database.Data.Apprentices.Where(a => a.FirstName.Contains(t.Text, StringComparison.OrdinalIgnoreCase) || a.LastName.Contains(t.Text, StringComparison.OrdinalIgnoreCase)).ToList(); }
+    /// <summary>
+    /// Filtert die Firmenliste basierend auf dem Suchtext.
+    /// </summary>
     private void SearchCompanies(object? sender, EventArgs e) { if(sender is TextBox t) _companyGrid.DataSource = Database.Data.Companies.Where(c => c.Name.Contains(t.Text, StringComparison.OrdinalIgnoreCase)).ToList(); }
+    /// <summary>
+    /// Filtert die Ausbilderliste basierend auf dem Suchtext.
+    /// </summary>
     private void SearchTrainers(object? sender, EventArgs e) { if(sender is TextBox t) _trainerGrid.DataSource = Database.Data.Trainers.Where(tr => tr.FirstName.Contains(t.Text, StringComparison.OrdinalIgnoreCase) || tr.LastName.Contains(t.Text, StringComparison.OrdinalIgnoreCase)).ToList(); }
 
+    /// <summary>
+    /// Erstellt das "Home"-Panel, das eine Systemübersicht anzeigt.
+    /// </summary>
     private Panel CreateHomePanel() { Panel pnl = new Panel() { Dock = DockStyle.Fill }; Label lblTitle = new Label() { Text = "System Overview", Font = new Font("Segoe UI", 24, FontStyle.Bold), Dock = DockStyle.Top, Height = 75, Padding = new Padding(0, 15, 0, 0) }; _lblGlobalStats = new Label() { Font = new Font("Segoe UI", 16), Dock = DockStyle.Fill, Padding = new Padding(20) }; pnl.Controls.Add(_lblGlobalStats); pnl.Controls.Add(lblTitle); return pnl; }
 
+    /// <summary>
+    /// Aktualisiert die globalen Statistiken auf dem "Home"-Panel.
+    /// </summary>
     private void UpdateHomeStats() {
         if (_lblGlobalStats == null || _role != UserRole.Trainer) return; var apps = Database.Data.Apprentices;
         double globalGpa = apps.Any(a => a.OverallGPA > 0) ? apps.Where(a => a.OverallGPA > 0).Average(a => a.OverallGPA) : 0;
@@ -310,6 +408,9 @@ public class MainForm : Form
         _lblGlobalStats.Text = $"📊 Total Apprentices: {apps.Count}\n🏢 Total Companies: {Database.Data.Companies.Count}\n👨‍🏫 Total Trainers: {Database.Data.Trainers.Count}\n\n🎓 Global Average GPA: {globalGpa:F2}\n⚠️ Apprentices At Risk (GPA < 4.0 or Sick > 15): {atRisk}";
     }
 
+    /// <summary>
+    /// Erstellt das Panel zur Anzeige detaillierter Statistiken.
+    /// </summary>
     private Panel CreateStatisticsPanel() { Panel pnl = new Panel() { Dock = DockStyle.Fill }; Label lblTitle = new Label() { Text = "Detailed Statistics", Font = new Font("Segoe UI", 24, FontStyle.Bold), Dock = DockStyle.Top, Height = 75, Padding = new Padding(0, 15, 0, 0) }; _flpStatistics = new FlowLayoutPanel() { Dock = DockStyle.Fill, Padding = new Padding(10), AutoScroll = true }; pnl.Controls.Add(_flpStatistics); pnl.Controls.Add(lblTitle); return pnl; }
 
     private void UpdateStatisticsPanel() {
@@ -331,10 +432,19 @@ public class MainForm : Form
         _flpStatistics.Controls.Add(CreateStatCard("Casino Economy", $"{totalCasinoCoins} Coins", Color.Orange));
     }
 
+    /// <summary>
+    /// Erstellt eine einzelne "Statistikkarte" zur Anzeige eines Kennwerts.
+    /// </summary>
     private Panel CreateStatCard(string title, string value, Color valueColor) { Panel card = new Panel() { Width = 300, Height = 150, BackColor = Color.FromArgb(45, 45, 48), Margin = new Padding(15) }; Label lblTitle = new Label() { Text = title, Font = new Font("Segoe UI", 12, FontStyle.Bold), ForeColor = Color.LightGray, Dock = DockStyle.Top, Height = 40, TextAlign = ContentAlignment.MiddleCenter, Padding = new Padding(0, 10, 0, 0) }; Label lblValue = new Label() { Text = value, Font = new Font("Segoe UI", 28, FontStyle.Bold), ForeColor = valueColor, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter }; card.Controls.Add(lblValue); card.Controls.Add(lblTitle); return card; }
 
+    /// <summary>
+    /// Erstellt das Einstellungs-Panel, z.B. für Backups.
+    /// </summary>
     private Panel CreateSettingsPanel() { Panel pnl = new Panel() { Dock = DockStyle.Fill }; Label lblTitle = new Label() { Text = "System Settings", Font = new Font("Segoe UI", 24, FontStyle.Bold), Dock = DockStyle.Top, Height = 75, Padding = new Padding(0, 15, 0, 0) }; Button btnBackup = AppUI.CreateFlatButton("💾 Backup JSON Database", Color.FromArgb(40, 167, 69)); btnBackup.Width = 250; btnBackup.Location = new Point(20, 100); btnBackup.Click += (s, e) => { using SaveFileDialog sfd = new SaveFileDialog() { Filter = "JSON files (*.json)|*.json", FileName = $"AMS_Backup_{DateTime.Now:yyyyMMdd}.json" }; if (sfd.ShowDialog() == DialogResult.OK) { File.Copy("app_data.json", sfd.FileName, true); MessageBox.Show("Backup created!"); } }; pnl.Controls.Add(btnBackup); pnl.Controls.Add(lblTitle); return pnl; }
 
+    /// <summary>
+    /// Erstellt das Panel für das Verzeichnis der Lernenden.
+    /// </summary>
     private Panel CreateApprenticeDirectoryPanel() {
         Panel pnl = new Panel() { Dock = DockStyle.Fill, Visible = false }; Label lblTitle = new Label() { Text = "Apprentice Directory", Font = new Font("Segoe UI", 20, FontStyle.Bold), Dock = DockStyle.Top, Height = 60, Padding = new Padding(0, 10, 0, 0) };
         FlowLayoutPanel toolbar = new FlowLayoutPanel() { Dock = DockStyle.Top, Height = 60 };
@@ -348,8 +458,14 @@ public class MainForm : Form
         pnl.Controls.Add(_apprenticeGrid); pnl.Controls.Add(toolbar); pnl.Controls.Add(lblTitle); _apprenticeGrid.BringToFront(); return pnl;
     }
 
+    /// <summary>
+    /// Exportiert die aktuelle Liste der Lernenden in eine CSV-Datei.
+    /// </summary>
     private void ExportDirectoryToCsv() { using SaveFileDialog sfd = new SaveFileDialog() { Filter = "CSV files (*.csv)|*.csv", FileName = $"Apprentice_Export_{DateTime.Now:yyyyMMdd}.csv" }; if (sfd.ShowDialog() == DialogResult.OK) { StringBuilder csv = new StringBuilder(); csv.AppendLine("Status,First Name,Last Name,Department,Company,Trainer,Year,Sick Days,GPA"); foreach(var app in Database.Data.Apprentices) { csv.AppendLine($"{app.Status},{app.FirstName},{app.LastName},{app.Department},{app.CompanyName},{app.TrainerName},{app.CurrentYear},{app.SickDays},{app.OverallGPA:F2}"); } File.WriteAllText(sfd.FileName, csv.ToString()); MessageBox.Show("CSV Exported Successfully!"); } }
 
+    /// <summary>
+    /// Erstellt ein generisches Verzeichnis-Panel mit Standard-Aktionen (Hinzufügen, Bearbeiten, Löschen, Suchen).
+    /// </summary>
     private Panel CreateBaseViewPanel(string title, DataGridView grid, Action onAdd, Action onDelete, Action onEdit, EventHandler onSearch) {
         Panel pnl = new Panel() { Dock = DockStyle.Fill, Visible = false }; Label lblTitle = new Label() { Text = title, Font = new Font("Segoe UI", 20, FontStyle.Bold), Dock = DockStyle.Top, Height = 60, Padding = new Padding(0, 10, 0, 0) }; FlowLayoutPanel toolbar = new FlowLayoutPanel() { Dock = DockStyle.Top, Height = 60 };
         Button btnAdd = AppUI.CreateFlatButton("➕ Add New", Color.FromArgb(0, 122, 204)); btnAdd.Click += (s, e) => onAdd();
@@ -360,6 +476,9 @@ public class MainForm : Form
         toolbar.Controls.AddRange(new Control[] { btnAdd, btnEdit, btnDelete, lblSearch, txtSearch }); pnl.Controls.Add(grid); pnl.Controls.Add(toolbar); pnl.Controls.Add(lblTitle); grid.BringToFront(); return pnl;
     }
 
+    /// <summary>
+    /// Erstellt das persönliche Dashboard-Panel für einen Lernenden.
+    /// </summary>
     private Panel CreateDashboardPanel(Apprentice app) {
         Panel pnl = new Panel() { Dock = DockStyle.Fill };
         if (_navHistory.Count > 0) { Panel toolbar = new Panel() { Dock = DockStyle.Top, Height = 70 }; Button btnBack = AppUI.CreateFlatButton("⬅ Back", Color.FromArgb(80, 80, 80)); btnBack.Location = new Point(0, 15); btnBack.Click += (s, e) => NavigateBack(); Label lblTitle = new Label() { Text = $"Dashboard: {app.FirstName} {app.LastName}", Font = new Font("Segoe UI", 20, FontStyle.Bold), AutoSize = true, Location = new Point(170, 18) }; toolbar.Controls.Add(btnBack); toolbar.Controls.Add(lblTitle); pnl.Controls.Add(toolbar); } 
@@ -394,8 +513,14 @@ public class MainForm : Form
         splitContainer.Controls.Add(actionGrid, 0, 0); splitContainer.Controls.Add(rightSidePanel, 1, 0); pnl.Controls.Add(splitContainer); pnl.Controls.Add(lblStats); return pnl;
     }
 
+    /// <summary>
+    /// Exportiert einen detaillierten Bericht über einen Lernenden in eine Textdatei.
+    /// </summary>
     private void ExportApprenticeReport(Apprentice app) { string path = $"{app.FirstName}_{app.LastName}_Report.txt"; using (StreamWriter sw = new StreamWriter(path)) { sw.WriteLine($"=== APPRENTICE REPORT: {app.FirstName.ToUpper()} {app.LastName.ToUpper()} ==="); sw.WriteLine($"Company: {app.CompanyName} | Trainer: {app.TrainerName}\nDepartment: {app.Department} | Year: {app.CurrentYear}"); sw.WriteLine($"Goal: {app.CareerGoal}"); sw.WriteLine($"Sick Days: {app.SickDays} | Attendance: {app.AttendanceRate}% | Overall GPA: {app.OverallGPA:F2}\n\n--- TO-DO LIST / DAY PLAN ---"); sw.WriteLine(string.IsNullOrWhiteSpace(app.DailyPlan) ? "No plan recorded." : app.DailyPlan); sw.WriteLine("\n--- SUBJECTS & EXAMS ---"); foreach (var sub in app.Subjects) { sw.WriteLine($"> {sub.Name} (Avg: {sub.AverageGrade:F2})"); foreach (var t in sub.Tests) sw.WriteLine($"    - {t.TestName}: {t.Grade:F1}"); } sw.WriteLine("\n--- WORK JOURNALS ---"); foreach (var j in app.WorkJournals) sw.WriteLine($"[{j.Date:d}] {j.HoursWorked}h - {j.TaskDescription}"); } MessageBox.Show($"Report exported successfully to:\n{Path.GetFullPath(path)}"); }
 
+    /// <summary>
+    /// Erstellt das Panel zur Verwaltung der Fächer und Noten eines Lernenden.
+    /// </summary>
     private Panel CreateSubjectsPanel(Apprentice app) {
         Panel pnl = new Panel() { Dock = DockStyle.Fill }; Panel toolbar = new Panel() { Dock = DockStyle.Top, Height = 70 };
         Button btnBack = AppUI.CreateFlatButton("⬅ Back", Color.FromArgb(80, 80, 80)); btnBack.Location = new Point(0, 15); btnBack.Click += (s, e) => NavigateBack();
@@ -418,6 +543,9 @@ public class MainForm : Form
         pnl.Controls.Add(grid); pnl.Controls.Add(actionToolbar); grid.BringToFront(); return pnl;
     }
 
+    /// <summary>
+    /// Erstellt das Panel zur Verwaltung der Prüfungen und Noten innerhalb eines Fachs.
+    /// </summary>
     private Panel CreateTestsPanel(Subject subject, Apprentice app) {
         Panel pnl = new Panel() { Dock = DockStyle.Fill }; Panel toolbar = new Panel() { Dock = DockStyle.Top, Height = 70 };
         Button btnBack = AppUI.CreateFlatButton("⬅ Back", Color.FromArgb(80, 80, 80)); btnBack.Location = new Point(0, 15); btnBack.Click += (s, e) => NavigateBack();
@@ -440,6 +568,9 @@ public class MainForm : Form
         pnl.Controls.Add(grid); pnl.Controls.Add(actionToolbar); pnl.Controls.Add(lblAvg); grid.BringToFront(); return pnl;
     }
 
+    /// <summary>
+    /// Erstellt das Panel zur Verwaltung der Arbeitstagebücher eines Lernenden.
+    /// </summary>
     private Panel CreateJournalsPanel(Apprentice app) {
         Panel pnl = new Panel() { Dock = DockStyle.Fill }; Panel toolbar = new Panel() { Dock = DockStyle.Top, Height = 70 };
         Button btnBack = AppUI.CreateFlatButton("⬅ Back", Color.FromArgb(80, 80, 80)); btnBack.Location = new Point(0, 15); btnBack.Click += (s, e) => NavigateBack();
@@ -460,33 +591,75 @@ public class MainForm : Form
         pnl.Controls.Add(grid); pnl.Controls.Add(actionToolbar); grid.BringToFront(); return pnl;
     }
 
+    /// <summary>
+    /// Lädt die Daten für alle Verzeichnis-Grids neu.
+    /// </summary>
     private void RefreshGrids() { if (_apprenticeGrid != null) { _apprenticeGrid.DataSource = null; _apprenticeGrid.DataSource = Database.Data.Apprentices.ToList(); HideCols(_apprenticeGrid, "Id", "WorkJournals", "Subjects", "FullName", "DailyPlan", "IsAtRisk", "PinCode", "AttendanceRate", "CareerGoal", "CasinoCredits"); } if (_companyGrid != null) { _companyGrid.DataSource = null; _companyGrid.DataSource = Database.Data.Companies.ToList(); HideCols(_companyGrid, "Id"); } if (_trainerGrid != null) { _trainerGrid.DataSource = null; _trainerGrid.DataSource = Database.Data.Trainers.ToList(); HideCols(_trainerGrid, "Id", "FullName", "PinCode", "CasinoCredits"); } }
+    /// <summary>
+    /// Versteckt die angegebenen Spalten in einem DataGridView.
+    /// </summary>
     private void HideCols(DataGridView g, params string[] cols) { foreach(var c in cols) if(g.Columns[c] != null) g.Columns[c]!.Visible = false; }
     
+    /// <summary>
+    /// Öffnet den Bearbeitungsdialog für den ausgewählten Lernenden.
+    /// </summary>
     private void EditApprentice() { if (_apprenticeGrid.SelectedRows.Count > 0 && _apprenticeGrid.SelectedRows[0].DataBoundItem is Apprentice a) { if (new EditApprenticeDialog(a).ShowDialog() == DialogResult.OK) { RefreshGrids(); } } }
+    /// <summary>
+    /// Fügt einen neuen Lernenden zur Datenbank hinzu.
+    /// </summary>
     private void AddApprentice() { string f = AppUI.PromptInput("First Name:", "New"); if(!string.IsNullOrWhiteSpace(f)) { Database.Data.Apprentices.Add(new Apprentice { FirstName = f, LastName = AppUI.PromptInput("Last Name:", "") }); Database.Save(); RefreshGrids(); } }
+    /// <summary>
+    /// Löscht den ausgewählten Lernenden aus der Datenbank.
+    /// </summary>
     private void DeleteApprentice() { if(_apprenticeGrid.SelectedRows.Count > 0 && _apprenticeGrid.SelectedRows[0].DataBoundItem is Apprentice a) { Database.Data.Apprentices.Remove(a); Database.Save(); RefreshGrids(); } }
     
+    /// <summary>
+    /// Öffnet den Bearbeitungsdialog für die ausgewählte Firma.
+    /// </summary>
     private void EditCompany() { if (_companyGrid.SelectedRows.Count > 0 && _companyGrid.SelectedRows[0].DataBoundItem is Company c) { if (new EditCompanyDialog(c).ShowDialog() == DialogResult.OK) { RefreshGrids(); } } }
+    /// <summary>
+    /// Fügt eine neue Firma zur Datenbank hinzu.
+    /// </summary>
     private void AddCompany() { string n = AppUI.PromptInput("Company Name:", "New"); if(!string.IsNullOrWhiteSpace(n)) { Database.Data.Companies.Add(new Company { Name = n, Location = AppUI.PromptInput("Location:", "") }); Database.Save(); RefreshGrids(); } }
+    /// <summary>
+    /// Löscht die ausgewählte Firma aus der Datenbank.
+    /// </summary>
     private void DeleteCompany() { if(_companyGrid.SelectedRows.Count > 0 && _companyGrid.SelectedRows[0].DataBoundItem is Company c) { Database.Data.Companies.Remove(c); Database.Save(); RefreshGrids(); } }
     
+    /// <summary>
+    /// Öffnet den Bearbeitungsdialog für den ausgewählten Ausbilder.
+    /// </summary>
     private void EditTrainer() { if (_trainerGrid.SelectedRows.Count > 0 && _trainerGrid.SelectedRows[0].DataBoundItem is VocationalTrainer t) { if (new EditTrainerDialog(t).ShowDialog() == DialogResult.OK) { RefreshGrids(); } } }
+    /// <summary>
+    /// Fügt einen neuen Ausbilder zur Datenbank hinzu.
+    /// </summary>
     private void AddTrainer() { string n = AppUI.PromptInput("Trainer First Name:", "New"); if(!string.IsNullOrWhiteSpace(n)) { Database.Data.Trainers.Add(new VocationalTrainer { FirstName = n, LastName = AppUI.PromptInput("Trainer Last Name:", ""), Email = AppUI.PromptInput("Email:", "") }); Database.Save(); RefreshGrids(); } }
+    /// <summary>
+    /// Löscht den ausgewählten Ausbilder aus der Datenbank.
+    /// </summary>
     private void DeleteTrainer() { if(_trainerGrid.SelectedRows.Count > 0 && _trainerGrid.SelectedRows[0].DataBoundItem is VocationalTrainer t) { Database.Data.Trainers.Remove(t); Database.Save(); RefreshGrids(); } }
 }
 
 public class EditCompanyDialog : Form
 {
+    /// <summary>
+    /// Initialisiert ein Dialogfeld zum Bearbeiten der Details einer Firma.
+    /// </summary>
     public EditCompanyDialog(Company c) { Text = "Edit Company"; Size = new Size(400, 300); StartPosition = FormStartPosition.CenterParent; BackColor = Color.FromArgb(32, 32, 32); ForeColor = Color.White; FormBorderStyle = FormBorderStyle.FixedSingle; MaximizeBox = false; Label lblName = new Label() { Text = "Company Name:", Left = 20, Top = 20, AutoSize = true }; TextBox txtName = new TextBox() { Left = 20, Top = 40, Width = 340, Text = c.Name, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblLoc = new Label() { Text = "Location:", Left = 20, Top = 80, AutoSize = true }; TextBox txtLoc = new TextBox() { Left = 20, Top = 100, Width = 340, Text = c.Location, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Button btnSave = AppUI.CreateFlatButton("Save Changes", Color.FromArgb(0, 122, 204)); btnSave.Location = new Point(120, 160); btnSave.Click += (s, e) => { c.Name = txtName.Text; c.Location = txtLoc.Text; Database.Save(); DialogResult = DialogResult.OK; }; Controls.Add(lblName); Controls.Add(txtName); Controls.Add(lblLoc); Controls.Add(txtLoc); Controls.Add(btnSave); }
 }
 
 public class EditTrainerDialog : Form
 {
+    /// <summary>
+    /// Initialisiert ein Dialogfeld zum Bearbeiten der Details eines Ausbilders.
+    /// </summary>
     public EditTrainerDialog(VocationalTrainer t) { Text = "Edit Trainer Profile"; Size = new Size(400, 480); StartPosition = FormStartPosition.CenterParent; BackColor = Color.FromArgb(32, 32, 32); ForeColor = Color.White; FormBorderStyle = FormBorderStyle.FixedSingle; MaximizeBox = false; Label lblFirst = new Label() { Text = "First Name:", Left = 20, Top = 20, AutoSize = true }; TextBox txtFirst = new TextBox() { Left = 20, Top = 40, Width = 340, Text = t.FirstName, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblLast = new Label() { Text = "Last Name:", Left = 20, Top = 80, AutoSize = true }; TextBox txtLast = new TextBox() { Left = 20, Top = 100, Width = 340, Text = t.LastName, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblEmail = new Label() { Text = "Email:", Left = 20, Top = 140, AutoSize = true }; TextBox txtEmail = new TextBox() { Left = 20, Top = 160, Width = 340, Text = t.Email, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblPin = new Label() { Text = "Login PIN:", Left = 20, Top = 200, AutoSize = true }; TextBox txtPin = new TextBox() { Left = 20, Top = 220, Width = 340, Text = t.PinCode, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblCreds = new Label() { Text = "Casino Credits:", Left = 20, Top = 260, AutoSize = true }; TextBox txtCreds = new TextBox() { Left = 20, Top = 280, Width = 340, Text = t.CasinoCredits.ToString(), BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Button btnSave = AppUI.CreateFlatButton("Save Changes", Color.FromArgb(0, 122, 204)); btnSave.Location = new Point(120, 360); btnSave.Click += (s, e) => { t.FirstName = txtFirst.Text; t.LastName = txtLast.Text; t.Email = txtEmail.Text; t.PinCode = txtPin.Text; if(int.TryParse(txtCreds.Text, out int c)) t.CasinoCredits = c; Database.Save(); DialogResult = DialogResult.OK; }; Controls.Add(lblFirst); Controls.Add(txtFirst); Controls.Add(lblLast); Controls.Add(txtLast); Controls.Add(lblEmail); Controls.Add(txtEmail); Controls.Add(lblPin); Controls.Add(txtPin); Controls.Add(lblCreds); Controls.Add(txtCreds); Controls.Add(btnSave); }
 }
 
 public class EditApprenticeDialog : Form
 {
+    /// <summary>
+    /// Initialisiert ein Dialogfeld zum Bearbeiten der Details eines Lernenden.
+    /// </summary>
     public EditApprenticeDialog(Apprentice app) { Text = "Edit Apprentice Profile"; Size = new Size(400, 680); StartPosition = FormStartPosition.CenterParent; BackColor = Color.FromArgb(32, 32, 32); ForeColor = Color.White; FormBorderStyle = FormBorderStyle.FixedSingle; MaximizeBox = false; Label lblFirst = new Label() { Text = "First Name:", Left = 20, Top = 10, AutoSize = true }; TextBox txtFirst = new TextBox() { Left = 20, Top = 30, Width = 340, Text = app.FirstName, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblLast = new Label() { Text = "Last Name:", Left = 20, Top = 70, AutoSize = true }; TextBox txtLast = new TextBox() { Left = 20, Top = 90, Width = 340, Text = app.LastName, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblDept = new Label() { Text = "Department:", Left = 20, Top = 130, AutoSize = true }; TextBox txtDept = new TextBox() { Left = 20, Top = 150, Width = 340, Text = app.Department, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblGoal = new Label() { Text = "Career Goal:", Left = 20, Top = 190, AutoSize = true }; TextBox txtGoal = new TextBox() { Left = 20, Top = 210, Width = 340, Text = app.CareerGoal, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblCompany = new Label() { Text = "Assign Company:", Left = 20, Top = 250, AutoSize = true }; ComboBox cbCompany = new ComboBox() { Left = 20, Top = 270, Width = 340, DropDownStyle = ComboBoxStyle.DropDownList, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; cbCompany.Items.Add("Not Assigned"); cbCompany.Items.AddRange(Database.Data.Companies.Select(c => c.Name).ToArray()); cbCompany.SelectedItem = Database.Data.Companies.Any(c => c.Name == app.CompanyName) ? app.CompanyName : "Not Assigned"; Label lblTrainer = new Label() { Text = "Assign Trainer:", Left = 20, Top = 310, AutoSize = true }; ComboBox cbTrainer = new ComboBox() { Left = 20, Top = 330, Width = 340, DropDownStyle = ComboBoxStyle.DropDownList, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; cbTrainer.Items.Add("Not Assigned"); cbTrainer.Items.AddRange(Database.Data.Trainers.Select(t => t.FullName).ToArray()); cbTrainer.SelectedItem = Database.Data.Trainers.Any(t => t.FullName == app.TrainerName) ? app.TrainerName : "Not Assigned"; Label lblPin = new Label() { Text = "Account Login PIN:", Left = 20, Top = 370, AutoSize = true }; TextBox txtPin = new TextBox() { Left = 20, Top = 390, Width = 340, Text = app.PinCode, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Label lblCreds = new Label() { Text = "Casino Credits:", Left = 20, Top = 430, AutoSize = true }; TextBox txtCreds = new TextBox() { Left = 20, Top = 450, Width = 340, Text = app.CasinoCredits.ToString(), BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White }; Button btnSave = AppUI.CreateFlatButton("Save Changes", Color.FromArgb(0, 122, 204)); btnSave.Location = new Point(120, 520); btnSave.Click += (s, e) => { app.FirstName = txtFirst.Text; app.LastName = txtLast.Text; app.Department = txtDept.Text; app.CareerGoal = txtGoal.Text; app.CompanyName = cbCompany.SelectedItem?.ToString() ?? "Not Assigned"; app.TrainerName = cbTrainer.SelectedItem?.ToString() ?? "Not Assigned"; app.PinCode = txtPin.Text; if(int.TryParse(txtCreds.Text, out int c)) app.CasinoCredits = c; Database.Save(); DialogResult = DialogResult.OK; }; Controls.Add(lblFirst); Controls.Add(txtFirst); Controls.Add(lblLast); Controls.Add(txtLast); Controls.Add(lblDept); Controls.Add(txtDept); Controls.Add(lblGoal); Controls.Add(txtGoal); Controls.Add(lblCompany); Controls.Add(cbCompany); Controls.Add(lblTrainer); Controls.Add(cbTrainer); Controls.Add(lblPin); Controls.Add(txtPin); Controls.Add(lblCreds); Controls.Add(txtCreds); Controls.Add(btnSave); }
 }
