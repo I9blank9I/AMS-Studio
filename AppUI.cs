@@ -80,7 +80,7 @@ public class JournalEntryDialog : Form
 
 public class LoginForm : Form
 {
-    private ComboBox _cbRole, _cbUser; private TextBox _txtPin;
+    private ComboBox _cbRole; private TextBox _txtUser, _txtPin;
     /// <summary>
     /// Initialisiert das Anmeldefenster mit allen UI-Komponenten.
     /// </summary>
@@ -91,19 +91,15 @@ public class LoginForm : Form
         Label lblRole = new Label() { Text = "Select Role:", AutoSize = true, Location = new Point(40, 20) };
         _cbRole = new ComboBox() { Location = new Point(40, 45), Width = 320, DropDownStyle = ComboBoxStyle.DropDownList, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White, Font = new Font("Segoe UI", 10) };
         _cbRole.Items.Add("Trainer (Admin)"); _cbRole.Items.Add("Apprentice"); _cbRole.SelectedIndexChanged += RoleChanged;
-        Label lblUser = new Label() { Text = "Select User:", AutoSize = true, Location = new Point(40, 90) };
-        _cbUser = new ComboBox() { Location = new Point(40, 115), Width = 320, DropDownStyle = ComboBoxStyle.DropDownList, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White, Font = new Font("Segoe UI", 10) };
+        Label lblUser = new Label() { Text = "Enter User:", AutoSize = true, Location = new Point(40, 90) };
+        _txtUser = new TextBox() { Location = new Point(40, 115), Width = 320, BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White, BorderStyle = BorderStyle.FixedSingle, Font = new Font("Segoe UI", 12) };
         Label lblPin = new Label() { Text = "PIN Code (Default: 1234):", AutoSize = true, Location = new Point(40, 160) };
         _txtPin = new TextBox() { Location = new Point(40, 185), Width = 320, PasswordChar = '●', BackColor = Color.FromArgb(43,43,43), ForeColor = Color.White, BorderStyle = BorderStyle.FixedSingle, Font = new Font("Segoe UI", 12) };
         Button btnLogin = AppUI.CreateFlatButton("Login", Color.FromArgb(0, 122, 204)); btnLogin.Location = new Point(120, 250); btnLogin.Font = new Font("Segoe UI", 12, FontStyle.Bold); btnLogin.Click += TryLogin;
-        this.AcceptButton = btnLogin; pnlCenter.Controls.Add(lblRole); pnlCenter.Controls.Add(_cbRole); pnlCenter.Controls.Add(lblUser); pnlCenter.Controls.Add(_cbUser); pnlCenter.Controls.Add(lblPin); pnlCenter.Controls.Add(_txtPin); pnlCenter.Controls.Add(btnLogin); Controls.Add(pnlCenter); Controls.Add(lblBrand); _cbRole.SelectedIndex = 0;
+        this.AcceptButton = btnLogin; pnlCenter.Controls.Add(lblRole); pnlCenter.Controls.Add(_cbRole); pnlCenter.Controls.Add(lblUser); pnlCenter.Controls.Add(_txtUser); pnlCenter.Controls.Add(lblPin); pnlCenter.Controls.Add(_txtPin); pnlCenter.Controls.Add(btnLogin); Controls.Add(pnlCenter); Controls.Add(lblBrand); _cbRole.SelectedIndex = 0;
     }
     private void RoleChanged(object? sender, EventArgs e) {
-        // Aktualisiert die Benutzerliste basierend auf der ausgewählten Rolle.
-        _cbUser.Items.Clear();
-        if (_cbRole.SelectedIndex == 0) { if (Database.Data.Trainers.Count == 0) _cbUser.Items.Add("Default Admin"); else _cbUser.Items.AddRange(Database.Data.Trainers.Select(t => t.FullName).ToArray()); } 
-        else { if (Database.Data.Apprentices.Count == 0) _cbUser.Items.Add("No Apprentices Found"); else _cbUser.Items.AddRange(Database.Data.Apprentices.Select(a => $"{a.FirstName} {a.LastName}").ToArray()); }
-        if (_cbUser.Items.Count > 0) _cbUser.SelectedIndex = 0;
+        // We no longer populate the username dropdown because it is a text box now.
     }
     /// <summary>
     /// Versucht, den Benutzer basierend auf der ausgewählten Rolle, dem Namen und dem PIN-Code anzumelden.
@@ -111,7 +107,7 @@ public class LoginForm : Form
     private void TryLogin(object? sender, EventArgs e) {
         // Überprüft die Anmeldeinformationen und öffnet das Hauptformular bei Erfolg.
         UserRole role = _cbRole.SelectedIndex == 0 ? UserRole.Trainer : UserRole.Apprentice; Apprentice? loggedInApprentice = null; VocationalTrainer? loggedInTrainer = null;
-        string selectedName = _cbUser.SelectedItem?.ToString() ?? ""; string enteredPin = _txtPin.Text;
+        string selectedName = _txtUser.Text ?? ""; string enteredPin = _txtPin.Text;
         if (role == UserRole.Trainer && selectedName != "Default Admin") { loggedInTrainer = Database.Data.Trainers.FirstOrDefault(t => t.FullName == selectedName); if (loggedInTrainer == null || loggedInTrainer.PinCode != enteredPin) { MessageBox.Show("Invalid PIN."); return; } } 
         else if (role == UserRole.Trainer && selectedName == "Default Admin" && enteredPin != "1234") { MessageBox.Show("Invalid Default PIN."); return; } 
         else if (role == UserRole.Apprentice) { loggedInApprentice = Database.Data.Apprentices.FirstOrDefault(a => $"{a.FirstName} {a.LastName}" == selectedName); if (loggedInApprentice == null || loggedInApprentice.PinCode != enteredPin) { MessageBox.Show("Invalid PIN."); return; } }

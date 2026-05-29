@@ -26,3 +26,4 @@ c:\Codes\MIA\C#\MIACopilotKev\ConsoleApp1\obj\Debug\net10.0-windows\refint\Conso
 c:\Codes\MIA\C#\MIACopilotKev\ConsoleApp1\obj\Debug\net10.0-windows\ConsoleApp1.pdb
 c:\Codes\MIA\C#\MIACopilotKev\ConsoleApp1\obj\Debug\net10.0-windows\ConsoleApp1.genruntimeconfig.cache
 c:\Codes\MIA\C#\MIACopilotKev\ConsoleApp1\obj\Debug\net10.0-windows\ref\ConsoleApp1.dll
+c:\Codes\MIA\C#\MIACopilotKev\ConsoleApp1\obj\Debug\net10.0-windows\ConsoleApp1.sourcelink.json
